@@ -1,7 +1,8 @@
 import { supabase } from "../lib/SupabaseClient";
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 import Gemeinde from "../model/Gemeinde";
 import AusbauMonat from "../model/AusbauMonat";
+import { Block, Heading, Table } from "react-bulma-components";
 
 function PagePv() {
     const [gemeinde, setGemeinde] = useState({} as Gemeinde)
@@ -37,17 +38,17 @@ function PagePv() {
 
     return (
         <div>
-            <h1>Photovoltaik</h1>
-            <div>
-                <h2>General Data</h2>
+            <Heading>Photovoltaik</Heading>
+            <Block>
+                <Heading subtitle>General Data</Heading>
                 <p>Gemeinde: {gemeinde.name}</p>
                 <p>Bruttoleistung: {gemeinde.bruttoleistung}</p>
                 <p>Anzahl Anlagen: {gemeinde.anzahl_anlagen}</p>
                 <p>kWp/Einwohner: {gemeinde.bruttoleistung/gemeinde.einwohner}</p>
-            </div>
-            <div>
-                <h2>Ausbau Historie</h2>
-                <table>
+            </Block>
+            <Block>
+                <Heading subtitle>Ausbau Historie</Heading>
+                <Table bordered>
                     <tr>
                         <th>Monat</th>
                         <th>Anzahl Anlagen</th>
@@ -60,8 +61,8 @@ function PagePv() {
                             <td>{data.bruttoleistung}</td>
                         </tr>
                     ))}
-                </table>
-            </div>
+                </Table>
+            </Block>
         </div>
     )
 }
