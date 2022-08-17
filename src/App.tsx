@@ -15,23 +15,23 @@ function App() {
       <BrowserRouter>
         <Navbar>
           <Navbar.Brand>
-            <Navbar.Item href='/'>
+            <Navbar.Item href={baseUrl}>
               <Image src={logoUrl} size={32}></Image>
             </Navbar.Item>
           </Navbar.Brand>
           
           <Navbar.Item href={baseUrl}>Photovoltaik</Navbar.Item>
-          <Navbar.Item href={baseUrl.concat("wind")}>Windkraft</Navbar.Item>
-          <Navbar.Item href={baseUrl + "biomass"}>Biomasse</Navbar.Item>
-          <Navbar.Item href={baseUrl + "water"}>Wasserkraft</Navbar.Item>
+          <Navbar.Item href="wind">Windkraft</Navbar.Item>
+          <Navbar.Item href="biomass">Biomasse</Navbar.Item>
+          <Navbar.Item href="water">Wasserkraft</Navbar.Item>
         </Navbar>
 
         <Routes>
           {/* TODO Solange PV=/ bzw. Home so lassen, react-router v6 hat keine Redirects mehr */}
-          <Route path={baseUrl} element={<PagePv />}></Route>
-          <Route path={baseUrl + "wind"} element={<p>TODO</p>}></Route>
-          <Route path={baseUrl + "biomass"} element={<p>TODO</p>}></Route>
-          <Route path={baseUrl + "water"} element={<p>TODO</p>}></Route>
+          <Route path="" element={<PagePv />}></Route>
+          <Route path="wind" element={<p>TODO</p>}></Route>
+          <Route path="biomass" element={<p>TODO</p>}></Route>
+          <Route path="water" element={<p>TODO</p>}></Route>
         </Routes>
       </BrowserRouter>
     </Container> 
