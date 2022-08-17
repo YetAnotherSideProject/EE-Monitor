@@ -1,8 +1,9 @@
-import { supabase } from "../lib/SupabaseClient";
 import { useState, useEffect } from 'react';
+import { Block, Box, Container, Heading, Level, Table } from "react-bulma-components";
+
+import { supabase } from "../lib/SupabaseClient";
 import Gemeinde from "../model/Gemeinde";
 import AusbauMonat from "../model/AusbauMonat";
-import { Block, Heading, Table } from "react-bulma-components";
 
 function PagePv() {
     const [gemeinde, setGemeinde] = useState({} as Gemeinde)
@@ -37,14 +38,31 @@ function PagePv() {
     }
 
     return (
-        <div>
-            <Heading>Photovoltaik</Heading>
+        <Container>
+            <Heading>Photovoltaik in {gemeinde.name}</Heading>
             <Block>
-                <Heading subtitle>General Data</Heading>
-                <p>Gemeinde: {gemeinde.name}</p>
-                <p>Bruttoleistung: {gemeinde.bruttoleistung}</p>
-                <p>Anzahl Anlagen: {gemeinde.anzahl_anlagen}</p>
-                <p>kWp/Einwohner: {gemeinde.bruttoleistung/gemeinde.einwohner}</p>
+                <Level>
+                    <Level.Side align="left">
+                        <Level.Item>
+                            <Box>
+                                <Heading spaced>{gemeinde.bruttoleistung} kWp</Heading>
+                                <Heading subtitle>Installierte Leistung</Heading>
+                            </Box>
+                        </Level.Item>
+                        <Level.Item>
+                            <Box>
+                                <Heading spaced>{gemeinde.anzahl_anlagen}</Heading>
+                                <Heading subtitle>Anlagen</Heading>
+                            </Box>
+                        </Level.Item>
+                        <Level.Item>
+                            <Box>
+                                <Heading spaced>{gemeinde.bruttoleistung/gemeinde.einwohner} kWp</Heading>
+                                <Heading subtitle>Leistung/Einwohner</Heading>
+                            </Box>
+                        </Level.Item>
+                    </Level.Side>
+                </Level>
             </Block>
             <Block>
                 <Heading subtitle>Ausbau Historie</Heading>
@@ -63,7 +81,7 @@ function PagePv() {
                     ))}
                 </Table>
             </Block>
-        </div>
+        </Container>
     )
 }
 
