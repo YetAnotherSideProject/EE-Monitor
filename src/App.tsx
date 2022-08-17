@@ -1,7 +1,6 @@
 import { Link, Outlet } from "react-router-dom";
 
 function App() {
-  const baseUrl = import.meta.env.BASE_URL as string;
 
   return (
     <div>
