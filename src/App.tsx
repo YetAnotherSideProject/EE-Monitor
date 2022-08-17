@@ -28,7 +28,7 @@ function App() {
 
         <Routes>
           {/* TODO Solange PV=/ bzw. Home so lassen, react-router v6 hat keine Redirects mehr */}
-          <Route path="/">
+          <Route path={baseUrl}>
             <Route index element={<PagePv />} />
             <Route path="wind" element={<p>TODO</p>} />
             <Route path="biomass" element={<p>TODO</p>} />
