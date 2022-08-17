@@ -1,5 +1,5 @@
 import { Navbar, Image, Container } from 'react-bulma-components'
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 
 import PagePv from './components/PagePv';
 import PageWind from './components/PageWind';
@@ -15,7 +15,6 @@ function App() {
 
   return (
     <Container>
-      <BrowserRouter>
         <Navbar>
           <Navbar.Brand>
             <Navbar.Item href={baseUrl}>
@@ -24,9 +23,9 @@ function App() {
           </Navbar.Brand>
           
           <Navbar.Item href={baseUrl}>Photovoltaik</Navbar.Item>
-          <Navbar.Item href="wind">Windkraft</Navbar.Item>
-          <Navbar.Item href="biomass">Biomasse</Navbar.Item>
-          <Navbar.Item href="water">Wasserkraft</Navbar.Item>
+          <Navbar.Item to='wind' renderAs={Link}>Windkraft</Navbar.Item>
+          <Navbar.Item to='biomass' renderAs={Link}>Biomasse</Navbar.Item>
+          <Navbar.Item to='water' renderAs={Link}>Wasserkraft</Navbar.Item>
         </Navbar>
 
         <Routes>
@@ -39,7 +38,6 @@ function App() {
             <Route path="*" element={<p>404 Error Seite</p>} />
           </Route>
         </Routes>
-      </BrowserRouter>
     </Container> 
   )
 }
