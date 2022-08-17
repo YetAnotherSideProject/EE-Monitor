@@ -29,6 +29,7 @@ jobs:
         node-version: '18'
         cache: 'yarn'
     - run: yarn install
+      # Base URL liegt unter yasp.dev (Wegen Org Github Page)
     - run: yarn run build --base=/EE-Monitor/
     - name: Setup Pages
       uses: actions/configure-pages@v1
