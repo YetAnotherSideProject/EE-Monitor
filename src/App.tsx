@@ -1,44 +1,23 @@
-import { Navbar, Image, Container } from 'react-bulma-components'
-import { Routes, Route, Link } from 'react-router-dom';
-
-import PagePv from './components/PagePv';
-import PageWind from './components/PageWind';
-
-import logoUrl from './assets/logo.svg';
-
-import './App.css'
-import PageBiomass from './components/PageBiomass';
-import PageWater from './components/PageWater';
+import { Link, Outlet } from "react-router-dom";
 
 function App() {
   const baseUrl = import.meta.env.BASE_URL as string;
 
   return (
-    <Container>
-        <Navbar>
-          <Navbar.Brand>
-            <Navbar.Item href={baseUrl}>
-              <Image src={logoUrl} size={32}></Image>
-            </Navbar.Item>
-          </Navbar.Brand>
-          
-          <Navbar.Item href={baseUrl}>Photovoltaik</Navbar.Item>
-          <Navbar.Item to='wind' renderAs={Link}>Windkraft</Navbar.Item>
-          <Navbar.Item to='biomass' renderAs={Link}>Biomasse</Navbar.Item>
-          <Navbar.Item to='water' renderAs={Link}>Wasserkraft</Navbar.Item>
-        </Navbar>
+    <div>
+      {/* TODO Global Navbar */}
+      <nav>
+        <Link to="">Photovoltaik</Link>
+        <Link to="wind">Windkraft</Link>
+        <Link to="biomass">Biomasse</Link>
+        <Link to="water">Wasserkraft</Link>
+      </nav>
+      
+      {/* Content, wird gesetzt durch React Router nested Component*/}
+      <Outlet />
 
-        <Routes>
-          {/* TODO Solange PV=/ bzw. Home so lassen, react-router v6 hat keine Redirects mehr */}
-          <Route path={baseUrl}>
-            <Route index element={<PagePv />} />
-            <Route path="wind" element={<PageWind />} />
-            <Route path="biomass" element={<PageBiomass />} />
-            <Route path="water" element={<PageWater />} />
-            <Route path="*" element={<p>404 Error Seite</p>} />
-          </Route>
-        </Routes>
-    </Container> 
+      {/* TODO Global Footer */}
+    </div> 
   )
 }
 
