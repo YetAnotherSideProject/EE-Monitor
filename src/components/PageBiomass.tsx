@@ -1,9 +1,8 @@
-import { Heading } from "react-bulma-components";
 
 function PageBiomass() {
     return (
         <div>
-            <Heading>Biomasse</Heading>
+            <h1>Biomasse</h1>
             <p>TODO</p>
         </div>
     )

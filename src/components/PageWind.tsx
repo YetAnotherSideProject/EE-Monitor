@@ -1,9 +1,8 @@
-import { Heading } from "react-bulma-components";
 
 function PageWind() {
     return (
         <div>
-            <Heading>Windkraft</Heading>
+            <h1>Windkraft</h1>
             <p>TODO</p>
         </div>
     )

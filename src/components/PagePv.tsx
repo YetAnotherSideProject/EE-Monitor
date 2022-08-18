@@ -1,11 +1,32 @@
-import { useState, useEffect } from 'react';
-import { Block, Box, Container, Heading, Level, Table } from "react-bulma-components";
-
+// React
+import { ReactNode, useState, useEffect } from 'react';
+// Chakra UI Styling
+import { 
+    Box, 
+    Flex,
+    Heading, 
+    SimpleGrid,
+    Stat,
+    StatLabel,
+    StatNumber,
+    Table,
+    Td,
+    Th,
+    Tr,
+    TableContainer,
+    Thead,
+    useColorModeValue, 
+    Tbody,
+    VStack
+} from '@chakra-ui/react';
+import { CalendarIcon } from '@chakra-ui/icons';
+// API
 import { supabase } from "../lib/SupabaseClient";
+// Model
 import Gemeinde from "../model/Gemeinde";
 import AusbauMonat from "../model/AusbauMonat";
 
-function PagePv() {
+export default function PagePv() {
     const [gemeinde, setGemeinde] = useState({} as Gemeinde)
     const [ausbauData, setAusbauData] = useState([] as AusbauMonat[])
    
@@ -30,7 +51,7 @@ function PagePv() {
             .from<AusbauMonat>('ausbaumonat')
             .select('*')
             .eq('gemeinde_schluessel', import.meta.env.VITE_MASTR_CITY_KEY)
-            .order("monat", { ascending: true})
+            .order("monat", { ascending: false})
 
         if(data) {
             setAusbauData(data)
@@ -38,51 +59,84 @@ function PagePv() {
     }
 
     return (
-        <Container>
+        <Box pt={5} px={{ base: 2, sm: 12, md: 17 }}>
             <Heading>Photovoltaik in {gemeinde.name}</Heading>
-            <Block>
-                <Level>
-                    <Level.Side align="left">
-                        <Level.Item>
-                            <Box>
-                                <Heading spaced>{gemeinde.bruttoleistung} kWp</Heading>
-                                <Heading subtitle>Installierte Leistung</Heading>
-                            </Box>
-                        </Level.Item>
-                        <Level.Item>
-                            <Box>
-                                <Heading spaced>{gemeinde.anzahl_anlagen}</Heading>
-                                <Heading subtitle>Anlagen</Heading>
-                            </Box>
-                        </Level.Item>
-                        <Level.Item>
-                            <Box>
-                                <Heading spaced>{gemeinde.bruttoleistung/gemeinde.einwohner} kWp</Heading>
-                                <Heading subtitle>Leistung/Einwohner</Heading>
-                            </Box>
-                        </Level.Item>
-                    </Level.Side>
-                </Level>
-            </Block>
-            <Block>
-                <Heading subtitle>Ausbau Historie</Heading>
-                <Table bordered>
-                    <tr>
-                        <th>Monat</th>
-                        <th>Anzahl Anlagen</th>
-                        <th>Bruttoleistung</th>
-                    </tr>
-                    {ausbauData.map((data) => (
-                        <tr>
-                            <td>{data.monat}</td>
-                            <td>{data.anzahl_anlagen}</td>
-                            <td>{data.bruttoleistung}</td>
-                        </tr>
-                    ))}
-                </Table>
-            </Block>
-        </Container>
+            <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }} pt={5}>
+                <StatsCard
+                    title={'Installierte Leistung'}
+                    stat={gemeinde.bruttoleistung + ' kWp'}
+                    icon={<CalendarIcon boxSize={50}/>}
+                    />
+                <StatsCard
+                    title={'Anlagen'}
+                    stat={gemeinde.anzahl_anlagen?.toString()}
+                    icon={<CalendarIcon boxSize={50}/>}
+                />
+                <StatsCard
+                    title={'Leistung/Einwohner'}
+                    stat={(gemeinde.bruttoleistung/gemeinde.einwohner).toPrecision(3) + ' kWp'}
+                    icon={<CalendarIcon boxSize={50}/>}
+                />
+            </SimpleGrid>
+            <VStack pt={5} placeItems='center'>
+                <Heading as='h2' size='lg'>Ausbau Historie</Heading>
+                <TableContainer pt={5}>
+                    <Table variant='simple' size='sm'>
+                        <Thead>
+                            <Tr>
+                                <Th>Monat</Th>
+                                <Th>Anzahl Anlagen</Th>
+                                <Th>Leistung</Th>
+                            </Tr>
+                        </Thead>
+                        <Tbody>
+                        {ausbauData.map((data) => (
+                            <Tr>
+                                <Td>{data.monat}</Td>
+                                <Td textAlign='center'>{data.anzahl_anlagen}</Td>
+                                <Td isNumeric>{data.bruttoleistung}</Td>
+                            </Tr>
+                        ))}
+                        </Tbody>
+                    </Table>
+                </TableContainer>
+            </VStack>
+        </Box>
     )
 }
 
-export default PagePv;
+interface StatsCardProps {
+    title: string;
+    stat: string;
+    icon: ReactNode;
+  }
+
+function StatsCard(props: StatsCardProps) {
+    const { title, stat, icon } = props;
+    return (
+        <Stat
+            px={{ base: 2, md: 4 }}
+            py={'5'}
+            shadow={'xl'}
+            border={'1px solid'}
+            borderColor={useColorModeValue('gray.800', 'gray.500')}
+            rounded={'lg'}>
+                <Flex justifyContent={'space-between'}>
+                    <Box pl={{ base: 2, md: 4 }}>
+                        <StatLabel fontWeight={'medium'}>
+                            {title}
+                        </StatLabel>
+                        <StatNumber fontSize={'2xl'} fontWeight={'medium'}>
+                            {stat}
+                        </StatNumber>
+                    </Box>
+                    <Box
+                        my={'auto'}
+                        color={useColorModeValue('gray.800', 'gray.200')}
+                        alignContent={'center'}>
+                        {icon}
+                    </Box>
+                </Flex>
+        </Stat>
+    );
+}

@@ -1,9 +1,8 @@
-import { Heading } from "react-bulma-components";
 
 function PageWater() {
     return (
         <div>
-            <Heading>Wasserkraft</Heading>
+            <h1>Wasserkraft</h1>
             <p>TODO</p>
         </div>
     )
