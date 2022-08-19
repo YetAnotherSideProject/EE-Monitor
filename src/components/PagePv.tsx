@@ -20,6 +20,8 @@ import {
     VStack
 } from '@chakra-ui/react';
 import { CalendarIcon } from '@chakra-ui/icons';
+// Recharts
+import { Bar, CartesianGrid, ComposedChart, Legend, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 // API
 import { supabase } from "../lib/SupabaseClient";
 // Model
@@ -51,7 +53,7 @@ export default function PagePv() {
             .from<AusbauMonat>('ausbaumonat')
             .select('*')
             .eq('gemeinde_schluessel', import.meta.env.VITE_MASTR_CITY_KEY)
-            .order("monat", { ascending: false})
+            .order("monat", { ascending: true})
 
         if(data) {
             setAusbauData(data)
@@ -79,7 +81,30 @@ export default function PagePv() {
                 />
             </SimpleGrid>
             <VStack pt={5} placeItems='center'>
-                <Heading as='h2' size='lg'>Ausbau Historie</Heading>
+            <Heading as='h2' size='lg'>Ausbau Historie</Heading>
+            <ResponsiveContainer width={'100%'} height={400}>
+                <ComposedChart
+                    width={500}
+                    height={250}
+                    data={ausbauData}
+                    margin={{
+                        top: 20,
+                        right: 20,
+                        bottom: 20,
+                        left: 20,
+                    }}
+                >
+                    <CartesianGrid stroke="#f5f5f5" />
+                    <XAxis dataKey="monat" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="bruttoleistung" barSize={50} fill="#413ea0" />
+                    <Line type="monotone" dataKey="anzahl_anlagen" stroke="#ff7300" />
+                </ComposedChart>
+            </ResponsiveContainer>
+
+            
                 <TableContainer pt={5}>
                     <Table variant='simple' size='sm'>
                         <Thead>
