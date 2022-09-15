@@ -1,7 +1,7 @@
 // React
 import { Outlet, NavLink as RoutedLink } from "react-router-dom";
 // Chakra UI Styling
-import { 
+import {
   Box,
   Flex,
   HStack,
@@ -10,53 +10,56 @@ import {
   Link,
   Stack,
   useDisclosure,
-  useColorModeValue
+  useColorModeValue,
 } from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
+import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 // Assets
-import logoUrl from './assets/logo.svg';
+import logoUrl from "./assets/logo.svg";
 
 function App() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const Links = [["Photovoltaik", ""], ["Windkraft", "wind"], ["Biomasse", "biomass"], ["Wasserkraft", "water"]];
+  const Links = [
+    ["Photovoltaik", ""],
+    ["Windkraft", "wind"],
+    ["Biomasse", "biomass"],
+    ["Wasserkraft", "water"],
+  ];
   const NavLinks = Links.map((link) => (
-    <Link 
-      as={RoutedLink} 
+    <Link
+      as={RoutedLink}
       to={link[1]}
       px={2}
       py={1}
-      rounded={'md'}
+      rounded={"md"}
       _hover={{
-        textDecoration: 'none',
-        bg: useColorModeValue('gray.200', 'gray.700'),
-      }}>{link[0]}</Link>
+        textDecoration: "none",
+        bg: useColorModeValue("gray.200", "gray.700"),
+      }}
+    >
+      {link[0]}
+    </Link>
   ));
 
   return (
     <div>
-      {/* Global Navbar */} 
-      <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
-        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+      {/* Global Navbar */}
+      <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
+        <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
-            size={'md'}
+            size={"md"}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-            aria-label={'Open Menu'}
-            display={{ md: 'none' }}
+            aria-label={"Open Menu"}
+            display={{ md: "none" }}
             onClick={isOpen ? onClose : onOpen}
           />
-          <HStack spacing={8} alignItems={'center'}>
-            <Image
-              boxSize='40px'
-              objectFit='cover'
-              src={logoUrl}
-              alt='Logo'
-
-            />
+          <HStack spacing={8} alignItems={"center"}>
+            <Image boxSize="40px" objectFit="cover" src={logoUrl} alt="Logo" />
             <HStack
-              as={'nav'}
+              as={"nav"}
               spacing={4}
-              display={{ base: 'none', md: 'flex' }}>
+              display={{ base: "none", md: "flex" }}
+            >
               {NavLinks}
             </HStack>
           </HStack>
@@ -64,8 +67,8 @@ function App() {
 
         {/* Dropdown Menu in mobile/portrait mode */}
         {isOpen ? (
-          <Box pb={4} display={{ md: 'none' }}>
-            <Stack as={'nav'} spacing={4}>
+          <Box pb={4} display={{ md: "none" }}>
+            <Stack as={"nav"} spacing={4}>
               {NavLinks}
             </Stack>
           </Box>
@@ -76,8 +79,8 @@ function App() {
       <Outlet />
 
       {/* TODO Global Footer */}
-    </div> 
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
