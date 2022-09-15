@@ -1,4 +1,4 @@
-function PageBiomass() {
+function Biomass() {
   return (
     <div>
       <h1>Biomasse</h1>
@@ -7,4 +7,4 @@ function PageBiomass() {
   );
 }
 
-export default PageBiomass;
+export default Biomass;

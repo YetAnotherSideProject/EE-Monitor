@@ -1,5 +1,6 @@
 // React
-import { ReactNode, useState, useEffect } from "react";
+import { ReactNode } from "react";
+import { useLoaderData } from "react-router-dom";
 // Chakra UI Styling
 import {
   Box,
@@ -38,36 +39,10 @@ import { supabase } from "../lib/SupabaseClient";
 import Gemeinde from "../model/Gemeinde";
 import AusbauMonat from "../model/AusbauMonat";
 
-export default function PagePv() {
-  const [gemeinde, setGemeinde] = useState({} as Gemeinde);
-  const [ausbauData, setAusbauData] = useState([] as AusbauMonat[]);
-
-  useEffect(() => {
-    fetchGemeindeData();
-    fetchAusbauData();
-  }, []);
-
-  const fetchGemeindeData = async () => {
-    let { data, error } = await supabase
-      .from<Gemeinde>("gemeinde")
-      .select("*")
-      .eq("schluessel", import.meta.env.VITE_MASTR_CITY_KEY);
-
-    if (data) {
-      setGemeinde(data[0]);
-    }
-  };
-
-  const fetchAusbauData = async () => {
-    let { data, error } = await supabase
-      .from<AusbauMonat>("ausbaumonat")
-      .select("*")
-      .eq("gemeinde_schluessel", import.meta.env.VITE_MASTR_CITY_KEY)
-      .order("monat", { ascending: true });
-
-    if (data) {
-      setAusbauData(data);
-    }
+export default function Pv() {
+  const { gemeinde, ausbauData } = useLoaderData() as {
+    gemeinde: Gemeinde;
+    ausbauData: AusbauMonat[];
   };
 
   return (
@@ -182,4 +157,24 @@ function StatsCard(props: StatsCardProps) {
       </Flex>
     </Stat>
   );
+}
+
+export async function pvLoader() {
+  const gemeindeRequest = supabase
+    .from<Gemeinde>("gemeinde")
+    .select("*")
+    .eq("schluessel", import.meta.env.VITE_MASTR_CITY_KEY)
+    .single();
+  const ausbauRequest = supabase
+    .from<AusbauMonat>("ausbaumonat")
+    .select("*")
+    .eq("gemeinde_schluessel", import.meta.env.VITE_MASTR_CITY_KEY)
+    .order("monat", { ascending: true });
+
+  let [
+    { data: gemeinde, error: errorGemeinde },
+    { data: ausbauData, error: errorAusbau },
+  ] = await Promise.all([gemeindeRequest, ausbauRequest]);
+
+  return { gemeinde, ausbauData };
 }

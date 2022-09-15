@@ -6,10 +6,10 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 //Components
 import App from "./App";
-import PagePv from "./components/PagePv";
-import PageWind from "./components/PageWind";
-import PageBiomass from "./components/PageBiomass";
-import PageWater from "./components/PageWater";
+import Pv, { pvLoader } from "./routes/Pv";
+import Wind from "./routes/Wind";
+import Biomass from "./routes/Biomass";
+import Water from "./routes/Water";
 
 const baseUrl = import.meta.env.BASE_URL as string;
 const router = createBrowserRouter(
@@ -18,10 +18,10 @@ const router = createBrowserRouter(
       path: "/",
       element: <App />,
       children: [
-        { path: "", element: <PagePv /> },
-        { path: "wind", element: <PageWind /> },
-        { path: "biomass", element: <PageBiomass /> },
-        { path: "water", element: <PageWater /> },
+        { path: "", element: <Pv />, loader: pvLoader },
+        { path: "wind", element: <Wind /> },
+        { path: "biomass", element: <Biomass /> },
+        { path: "water", element: <Water /> },
       ],
     },
   ],

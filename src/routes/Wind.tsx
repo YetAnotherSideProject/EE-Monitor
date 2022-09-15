@@ -1,4 +1,4 @@
-function PageWind() {
+function Wind() {
   return (
     <div>
       <h1>Windkraft</h1>
@@ -7,4 +7,4 @@ function PageWind() {
   );
 }
 
-export default PageWind;
+export default Wind;

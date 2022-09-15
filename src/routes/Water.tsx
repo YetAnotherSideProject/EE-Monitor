@@ -1,4 +1,4 @@
-function PageWater() {
+function Water() {
   return (
     <div>
       <h1>Wasserkraft</h1>
@@ -7,4 +7,4 @@ function PageWater() {
   );
 }
 
-export default PageWater;
+export default Water;
