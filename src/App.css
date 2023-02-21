@@ -1,0 +1,57 @@
+.website {
+  max-width: 960px;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: auto;
+  padding: 0;
+  width: fit-content;
+  overflow: hidden;
+  background-color: #333;
+}
+
+nav li {
+  float: left;
+  border-right: 1px solid #bbb;
+}
+
+nav li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+nav li a:hover {
+  background-color: #111;
+}
+
+nav .active {
+  background-color: #04aa6d;
+}
+
+.logo {
+  width: 14px;
+}
+
+.pvContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.stats {
+  display: flex;
+  flex-direction: row;
+  width: max-content;
+  padding: 14px;
+  border-style: solid;
+}

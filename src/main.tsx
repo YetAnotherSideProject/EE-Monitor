@@ -2,8 +2,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-// Chakra UI Styling
-import { ChakraProvider } from "@chakra-ui/react";
+
 //Components
 import App from "./App";
 import Pv, { pvLoader } from "./routes/Pv";
@@ -32,8 +31,6 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <ChakraProvider>
-      <RouterProvider router={router} />
-    </ChakraProvider>
+    <RouterProvider router={router} />
   </React.StrictMode>
 );

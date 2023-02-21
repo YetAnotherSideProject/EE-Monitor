@@ -1,7 +1,7 @@
 {
   "name": "ee-monitor",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,22 +9,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@chakra-ui/icons": "2.0.8",
-    "@chakra-ui/react": "2.2.8",
-    "@emotion/react": "11.10.0",
-    "@emotion/styled": "11.10.0",
-    "@supabase/supabase-js": "1.35.6",
-    "framer-motion": "7.2.0",
+    "@supabase/supabase-js": "2.8.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-router-dom": "6.4.0",
-    "recharts": "2.1.13"
+    "react-router-dom": "6.8.1",
+    "recharts": "2.4.3"
   },
   "devDependencies": {
-    "@types/react": "18.0.20",
-    "@types/react-dom": "18.0.6",
-    "@vitejs/plugin-react": "2.1.0",
-    "typescript": "4.8.3",
-    "vite": "3.1.1"
+    "@types/react": "18.0.28",
+    "@types/react-dom": "18.0.10",
+    "@vitejs/plugin-react": "3.1.0",
+    "eslint": "8.34.0",
+    "eslint-config-react-app": "7.0.1",
+    "prettier": "2.8.4",
+    "typescript": "4.9.5",
+    "vite": "4.1.1"
   }
 }
