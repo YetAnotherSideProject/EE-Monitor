@@ -4,10 +4,10 @@ name: Node.js Github Pages Deployment
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
-    
+    branches: ["main"]
+
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
@@ -22,21 +22,21 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-    - uses: actions/checkout@v3
-    - name: NodeJS 18 Yarn
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-        cache: 'yarn'
-    - run: yarn install
-      # Base URL liegt unter yasp.dev (Wegen Org Github Page)
-    - run: yarn run build --base=/EE-Monitor/
-    - name: Setup Pages
-      uses: actions/configure-pages@v1
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v1
-      with:
-        # Upload entire repository
-        path: './dist'
-    - name: Deploy to GitHub Pages
-      uses: actions/deploy-pages@v1
+      - uses: actions/checkout@v3
+      - name: NodeJS 19
+        uses: actions/setup-node@v3
+        with:
+          node-version: "19"
+          cache: "npm"
+      - run: npm ci
+        # Base URL liegt unter yasp.dev (Wegen Org Github Page)
+      - run: npm run build --base=/EE-Monitor/
+      - name: Setup Pages
+        uses: actions/configure-pages@v1
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          # Upload entire repository
+          path: "./dist"
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1
