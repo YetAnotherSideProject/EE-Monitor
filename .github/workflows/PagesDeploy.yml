@@ -1,6 +1,6 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and deploys to Github Pages
 
-name: Node.js Github Pages Deployment
+name: Build with NodeJS & deploy static content to Pages
 
 on:
   push:
@@ -8,35 +8,45 @@ on:
   pull_request:
     branches: ["main"]
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+# Sets the GITHUB_TOKEN permissions to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
+  # Single deploy job to Github Pages
   deploy:
-    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: NodeJS 19
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - name: Set up NodeJS 19
         uses: actions/setup-node@v3
         with:
           node-version: "19"
           cache: "npm"
-      - run: npm ci
+      - name: Clean install dependencies
+        run: npm ci
+      - name: Build
         # Base URL liegt unter yasp.dev (Wegen Org Github Page)
-      - run: npm run build --base=/EE-Monitor/
+        # Fist -- separates parameters to "npm run" from parameters passed to "build"
+        run: npm run build -- --base=/EE-Monitor/
       - name: Setup Pages
-        uses: actions/configure-pages@v1
+        uses: actions/configure-pages@v3
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          # Upload entire repository
+          # Upload build dir
           path: "./dist"
       - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v1
