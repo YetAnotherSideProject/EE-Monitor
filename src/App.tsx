@@ -7,16 +7,14 @@ import logoUrl from "./assets/logo.svg";
 
 export default function App() {
   return (
-    <div className="website">
+    <>
       <header>
         {/* Global Top Navbar */}
         <nav>
+          <NavLink to={""} className="logo">
+            <img src={logoUrl} />
+          </NavLink>
           <ul>
-            <li>
-              <NavLink to="">
-                <img className="logo" src={logoUrl} />
-              </NavLink>
-            </li>
             <li>
               <NavLink to={""}>Photovoltaik</NavLink>
             </li>
@@ -42,6 +40,6 @@ export default function App() {
       <footer>
         <p>Erstellt von Martin Schulze Beckendorf</p>
       </footer>
-    </div>
+    </>
   );
 }
