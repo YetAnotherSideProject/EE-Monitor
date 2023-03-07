@@ -12,7 +12,7 @@ export default function App() {
         {/* Global Top Navbar */}
         <nav>
           <NavLink to={""} className="logo">
-            <img src={logoUrl} />
+            <img src={logoUrl} alt="Logo icon" />
           </NavLink>
           <ul>
             <li>

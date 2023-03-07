@@ -25,32 +25,42 @@ export default function Pv() {
     bestandData: AnlagenBestand[];
   };
 
-  const currentBestand = bestandData.at(bestandData.length - 1);
+  // Letzter Monat
+  const currentBestand = bestandData.at(-1);
+  // Letzte 12 Monate
   const lastYear = bestandData.slice(-12);
+
+  // Todo Error & alle Fälle abfangen
+  if (currentBestand === undefined) {
+    return <h1>Aktuell keine Daten :/</h1>;
+  }
+
+  // Dirty hack für End of Month? Warten auf Temporal API für Dates...
+  let date = new Date(currentBestand.monat);
+  date.setMonth(date.getMonth() + 1);
+  date.setDate(0); // ???
 
   return (
     <div className="pvContainer">
       {/* Header */}
-      <h1>Photovoltaik in {gemeinde.name}</h1>
+      <h1>
+        Photovoltaik in {gemeinde.name} zum {date.toLocaleDateString()}
+      </h1>
 
       {/* Top General Stats */}
-      {currentBestand !== undefined ? (
-        <div className="stats">
-          <Stat
-            value={currentBestand.bruttoleistung.toFixed(0)}
-            label="kWp installierte Leistung"
-          ></Stat>
-          <Stat value={currentBestand.anzahl_anlagen} label="Anlagen"></Stat>
-          <Stat
-            value={(
-              currentBestand.bruttoleistung / gemeinde.einwohner
-            ).toPrecision(3)}
-            label="kWp Leistung/Einwohner"
-          ></Stat>
-        </div>
-      ) : (
-        <></>
-      )}
+      <div className="stats">
+        <Stat
+          value={currentBestand.bruttoleistung.toFixed(0)}
+          label="kWp installierte Leistung"
+        ></Stat>
+        <Stat value={currentBestand.anzahl_anlagen} label="Anlagen"></Stat>
+        <Stat
+          value={(
+            currentBestand.bruttoleistung / gemeinde.einwohner
+          ).toPrecision(3)}
+          label="kWp Leistung/Einwohner"
+        ></Stat>
+      </div>
 
       {/* Ausbau letzte 12 Monate*/}
       <h2>Zubau in den letzten Monaten</h2>
