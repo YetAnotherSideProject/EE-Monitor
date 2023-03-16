@@ -74,13 +74,13 @@ export default function Pv() {
           <Label value="Anlagen" angle={+90} position="insideRight" />
         </YAxis>
         <Bar
-          name="Leistungszubau"
+          name="Leistung"
           dataKey="zubau_leistung"
           yAxisId="left"
           fill="#413ea0"
         />
         <Line
-          name="Anlagenzubau"
+          name="Anlagen"
           dataKey="zubau_anzahl"
           yAxisId="right"
           type="monotone"
