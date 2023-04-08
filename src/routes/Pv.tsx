@@ -41,10 +41,11 @@ export default function Pv() {
     return <h1>Aktuell keine Daten :/</h1>;
   }
 
-  // Dirty hack für End of Month? Warten auf Temporal API für Dates...
-  let date = new Date(currentBestand.monat);
-  date.setMonth(date.getMonth() + 1);
-  date.setDate(0); // ???
+  //YearMonth in DB persistiert als Integer YYYYMM, für Verwendung als Date konvertieren --> Jahr und Monat extrahieren
+  let date = new Date(currentBestand.monat / 100, currentBestand.monat % 100);
+  //Da Date Konstruktor Month indizes 0-11 nimmt und ohne Tag Angabe den 1. nimmt einen Tag davor, also End of Month des korrekten Monats nehmen
+  //JS Parameter weirdness setDate(0), neue Temporal JS API macht es hoffentlich besser
+  date.setDate(0);
 
   return (
     <div className="pvContainer">
