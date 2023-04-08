@@ -1,11 +1,16 @@
-// React
+//API & Data
+import { supabase } from "./lib/SupabaseClient";
+import { useLoaderData } from "react-router-dom";
+import { Gemeinde } from "./lib/Types";
+//Components
 import { Outlet, NavLink } from "react-router-dom";
-
-// Assets
+//Assets
 import "./App.css"; // will be injected into the page
 import logoUrl from "./assets/logo.svg";
 
 export default function App() {
+  const gemeinde = useLoaderData() as Gemeinde;
+
   return (
     <>
       <header>
@@ -33,7 +38,7 @@ export default function App() {
 
       {/* Content, wird gesetzt durch React Router nested Component*/}
       <main>
-        <Outlet />
+        <Outlet context={gemeinde} />
       </main>
 
       {/* Global Footer */}
@@ -42,4 +47,16 @@ export default function App() {
       </footer>
     </>
   );
+}
+
+//TODO auslagern in /lib als Teil des API Clients?
+export async function gemeindeLoader() {
+  //TODO Error Handling
+  let { data: gemeinde, error: errorGemeinde } = await supabase
+    .from("gemeinde")
+    .select("*")
+    .eq("schluessel", import.meta.env.VITE_MASTR_CITY_KEY)
+    .single();
+
+  return gemeinde;
 }

@@ -4,7 +4,7 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 //Components
-import App from "./App";
+import App, { gemeindeLoader } from "./App";
 import Pv, { pvLoader } from "./routes/Pv";
 import Wind from "./routes/Wind";
 import Biomass from "./routes/Biomass";
@@ -16,6 +16,7 @@ const router = createBrowserRouter(
     {
       path: "/",
       element: <App />,
+      loader: gemeindeLoader,
       children: [
         { path: "", element: <Pv />, loader: pvLoader },
         { path: "wind", element: <Wind /> },

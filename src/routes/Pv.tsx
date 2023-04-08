@@ -1,10 +1,12 @@
-// API & Data
-import { supabase } from "../lib/SupabaseClient";
-import { Gemeinde, AnlagenBestand } from "../lib/Types";
+//API & Data
 import { useLoaderData } from "react-router-dom";
-
-// Components
+import { useOutletContext } from "react-router-dom";
+import { GeoJsonObject } from "geojson";
+import { supabase } from "../lib/SupabaseClient";
+import { Gemeinde, AnlageDetail, PvBestandMonat } from "../lib/Types";
+//Components
 import Stat from "../components/Stat";
+import AnlagenMap from "../components/AnlagenMap";
 import {
   Area,
   Bar,
@@ -18,11 +20,15 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+//Assets
+import pvIconUrl from "../assets/pvCell.png";
 
+//Children von App, wird im Outlet gerendert, bekommt Gemeinde Objekt über Router Outlet Context
 export default function Pv() {
-  const { gemeinde, bestandData } = useLoaderData() as {
-    gemeinde: Gemeinde;
-    bestandData: AnlagenBestand[];
+  const gemeinde = useOutletContext() as Gemeinde;
+  const { bestandData, grosseAnlagen } = useLoaderData() as {
+    bestandData: PvBestandMonat[];
+    grosseAnlagen: AnlageDetail[];
   };
 
   // Letzter Monat
@@ -126,27 +132,37 @@ export default function Pv() {
         <Tooltip />
         <Legend verticalAlign="top" />
       </ComposedChart>
+
+      <h2>Große Anlagen</h2>
+      <AnlagenMap
+        mapCenter={[gemeinde.centerlat, gemeinde.centerlng]}
+        borderGeoJson={gemeinde.borderpolygon as unknown as GeoJsonObject}
+        anlagen={grosseAnlagen}
+        icon={pvIconUrl}
+      ></AnlagenMap>
     </div>
   );
 }
 
+//TODO auslagern in /lib als Teil des API Clients?
 export async function pvLoader() {
-  const gemeindeRequest = supabase
-    .from("gemeinde")
-    .select("*")
-    .eq("schluessel", import.meta.env.VITE_MASTR_CITY_KEY)
-    .single();
   const bestandRequest = supabase
-    .from("anlagen_bestand")
+    .from("pv_bestand_monat")
     .select("*")
-    .eq("gemeinde_schluessel", import.meta.env.VITE_MASTR_CITY_KEY)
+    .eq("gemeindeschluessel", import.meta.env.VITE_MASTR_CITY_KEY)
     .order("monat", { ascending: true });
+  const grosseAnlagenRequest = supabase
+    .from("anlage_detail")
+    .select("*")
+    .eq("gemeindeschluessel", import.meta.env.VITE_MASTR_CITY_KEY)
+    .eq("energietraeger", "SOLARE_STRAHLUNGSENERGIE")
+    .order("leistung", { ascending: true });
 
   // TODO korrektes Handling inkl. Error
   let [
-    { data: gemeinde, error: errorGemeinde },
     { data: bestandData, error: errorAusbau },
-  ] = await Promise.all([gemeindeRequest, bestandRequest]);
+    { data: grosseAnlagen, error: errorGrosseAnlagen },
+  ] = await Promise.all([bestandRequest, grosseAnlagenRequest]);
 
-  return { gemeinde, bestandData };
+  return { bestandData, grosseAnlagen };
 }
