@@ -6,7 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 //Components
 import App, { gemeindeLoader } from "./App";
 import Pv, { pvLoader } from "./routes/Pv";
-import Wind from "./routes/Wind";
+import Wind, { windLoader } from "./routes/Wind";
 import Biomass from "./routes/Biomass";
 import Water from "./routes/Water";
 
@@ -19,7 +19,7 @@ const router = createBrowserRouter(
       loader: gemeindeLoader,
       children: [
         { path: "", element: <Pv />, loader: pvLoader },
-        { path: "wind", element: <Wind /> },
+        { path: "wind", element: <Wind />, loader: windLoader },
         { path: "biomass", element: <Biomass /> },
         { path: "water", element: <Water /> },
       ],

@@ -140,7 +140,7 @@ export default function Pv() {
         borderGeoJson={gemeinde.borderpolygon as unknown as GeoJsonObject}
         anlagen={grosseAnlagen}
         icon={pvIconUrl}
-      ></AnlagenMap>
+      />
     </div>
   );
 }
