@@ -43,6 +43,7 @@ export default function Wind() {
 
 //TODO auslagern in /lib als Teil des API Clients?
 export async function windLoader() {
+  //TODO korrektes Error Handling
   let { data: anlagen, error: errorAnlagen } = await supabase
     .from("anlage_detail")
     .select("*")
