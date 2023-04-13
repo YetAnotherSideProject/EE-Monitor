@@ -8,7 +8,7 @@ import { Gemeinde, AnlageDetail } from "../lib/Types";
 import Stat from "../components/Stat";
 import AnlagenMap from "../components/AnlagenMap";
 //Assets
-import windIconUrl from "../assets/wind-turbine.png"; //TODO Biomasse Icon
+import biomassIconUrl from "../assets/biomass.png";
 
 export default function Biomass() {
   const gemeinde = useOutletContext() as Gemeinde;
@@ -35,7 +35,7 @@ export default function Biomass() {
         mapCenter={[gemeinde.centerlat, gemeinde.centerlng]}
         borderGeoJson={gemeinde.borderpolygon as unknown as GeoJsonObject}
         anlagen={anlagen}
-        icon={windIconUrl}
+        icon={biomassIconUrl}
       />
     </div>
   );
